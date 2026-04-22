@@ -98,6 +98,7 @@ export function ApplicationForm() {
                 value={status}
                 onChange={(event) => setStatus(event.target.value as typeof status)}
               >
+                <option value="Created">Created</option>
                 <option value="Applied">Applied</option>
                 <option value="Selected">Selected</option>
                 <option value="Rejected">Rejected</option>

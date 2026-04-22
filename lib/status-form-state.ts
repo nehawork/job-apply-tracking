@@ -20,7 +20,7 @@ export const initialStatusFormState: StatusFormState = {
   fieldErrors: {},
   values: {
     applicationId: "",
-    status: "Applied",
+    status: "Created",
     reason: ""
   }
 };

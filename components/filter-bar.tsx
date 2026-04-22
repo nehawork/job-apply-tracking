@@ -7,6 +7,7 @@ export function FilterBar({ filters }: { filters: Filters }) {
         <label htmlFor="status">Status</label>
         <select id="status" name="status" defaultValue={filters.status}>
           <option value="All">All statuses</option>
+          <option value="Created">Created</option>
           <option value="Applied">Applied</option>
           <option value="Selected">Selected</option>
           <option value="Rejected">Rejected</option>

@@ -8,6 +8,7 @@
   --line: rgba(62, 49, 32, 0.14);
   --accent: #b8502a;
   --accent-dark: #8d3415;
+  --created: #7252aa;
   --selected: #176b52;
   --rejected: #8d2230;
   --applied: #7f5f00;
@@ -307,6 +308,11 @@ select {
 .badge-applied {
   color: var(--applied);
   background: rgba(127, 95, 0, 0.12);
+}
+
+.badge-created {
+  color: var(--created);
+  background: rgba(114, 82, 170, 0.12);
 }
 
 .badge-selected {

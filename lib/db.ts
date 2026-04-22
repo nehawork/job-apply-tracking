@@ -53,11 +53,80 @@ async function initialize() {
       contact_email TEXT NOT NULL,
       contact_no TEXT NOT NULL,
       address TEXT NOT NULL,
-      status TEXT NOT NULL CHECK (status IN ('Applied', 'Selected', 'Rejected')),
+      status TEXT NOT NULL CHECK (status IN ('Created', 'Applied', 'Selected', 'Rejected')),
       reason TEXT,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  await migrateStatuses(db);
+}
+
+async function migrateStatuses(db: Client) {
+  const schemaResult = await db.execute({
+    sql: `
+      SELECT sql
+      FROM sqlite_master
+      WHERE type = 'table' AND name = 'job_applications'
+    `
+  });
+
+  const createTableSql = String(schemaResult.rows[0]?.sql ?? "");
+  if (createTableSql.includes("'Created'")) {
+    return;
+  }
+
+  await db.batch(
+    [
+      `
+        ALTER TABLE job_applications RENAME TO job_applications_old
+      `,
+      `
+        CREATE TABLE job_applications (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          company_name TEXT NOT NULL,
+          position TEXT NOT NULL,
+          job_description TEXT NOT NULL,
+          contact_email TEXT NOT NULL,
+          contact_no TEXT NOT NULL,
+          address TEXT NOT NULL,
+          status TEXT NOT NULL CHECK (status IN ('Created', 'Applied', 'Selected', 'Rejected')),
+          reason TEXT,
+          created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+      `,
+      `
+        INSERT INTO job_applications (
+          id,
+          company_name,
+          position,
+          job_description,
+          contact_email,
+          contact_no,
+          address,
+          status,
+          reason,
+          created_at
+        )
+        SELECT
+          id,
+          company_name,
+          position,
+          job_description,
+          contact_email,
+          contact_no,
+          address,
+          status,
+          reason,
+          created_at
+        FROM job_applications_old
+      `,
+      `
+        DROP TABLE job_applications_old
+      `
+    ],
+    "write"
+  );
 }
 
 export async function ensureDb() {

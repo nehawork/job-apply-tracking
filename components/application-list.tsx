@@ -9,6 +9,8 @@ import type { Filters, JobApplication } from "@/lib/types";
 
 function getBadgeClass(status: JobApplication["status"]) {
   switch (status) {
+    case "Created":
+      return "badge badge-created";
     case "Selected":
       return "badge badge-selected";
     case "Rejected":

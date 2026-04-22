@@ -14,7 +14,7 @@ export const initialFormValues: FormValues = {
   contactEmail: "",
   contactNo: "",
   address: "",
-  status: "Applied",
+  status: "Created",
   reason: ""
 };
 

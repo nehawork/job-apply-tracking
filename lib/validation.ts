@@ -36,7 +36,7 @@ export function validateStatusAndReason(status: ApplicationStatus, reason: strin
     reason?: string;
   } = {};
 
-  if (!["Applied", "Selected", "Rejected"].includes(status)) {
+  if (!["Created", "Applied", "Selected", "Rejected"].includes(status)) {
     fieldErrors.status = "Select a valid status.";
   }
 
@@ -58,7 +58,7 @@ export function validateApplicationForm(formData: FormData): ValidationResult {
     contactEmail: normalizeText(formData.get("contactEmail")),
     contactNo: normalizeText(formData.get("contactNo")),
     address: normalizeText(formData.get("address")),
-    status: (normalizeText(formData.get("status")) || "Applied") as ApplicationStatus,
+    status: (normalizeText(formData.get("status")) || "Created") as ApplicationStatus,
     reason: normalizeText(formData.get("reason"))
   };
 
